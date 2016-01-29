@@ -177,9 +177,9 @@ public class Ritual
                 {
                     Debug.Log("Player " + i + " no longer has a penile dysfunction");
 
-                    ConstructRitual(Random.Range(9, 15), Ritual.Difficulty.Easy);
-                    break;
+                    ConstructRitual(Random.Range(3, 4), Ritual.Difficulty.Easy);
                     reward.Execute(i, KeyCodeToLane(lastKey));
+                    break;
                 }
             }
         }

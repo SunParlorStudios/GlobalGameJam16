@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
         KeyMapping.Initialise();
 
-        currentRitual = new Ritual(Random.Range(9, 15), Ritual.Difficulty.Easy);
+        currentRitual = new Ritual(Random.Range(3, 4), Ritual.Difficulty.Easy);
     }
 
     public void Update()
