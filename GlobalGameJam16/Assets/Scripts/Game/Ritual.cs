@@ -146,23 +146,18 @@ public class Ritual
         {
             case KeyCodes.A:
                 return 0;
-                break;
 
             case KeyCodes.B:
                 return 1;
-                break;
 
             case KeyCodes.X:
                 return 2;
-                break;
 
             case KeyCodes.Y:
                 return 3;
-                break;
 
             default:
                 return -1;
-                break;
 
         }
     }
@@ -175,8 +170,6 @@ public class Ritual
             {
                 if (ritual[ritual.Count - 1].earnedByJoy[i] == true)
                 {
-                    Debug.Log("Player " + i + " no longer has a penile dysfunction");
-
                     ConstructRitual(Random.Range(3, 4), Ritual.Difficulty.Easy);
                     reward.Execute(i, KeyCodeToLane(lastKey));
                     break;

@@ -50,8 +50,6 @@ public class GameController : MonoBehaviour
 
         if (currentRitual.IsComplete())
         {
-            Debug.Log("You did it, you dumfuck.");
-
             currentRitual.ExecuteReward();
         }
     }
