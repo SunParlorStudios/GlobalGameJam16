@@ -35,6 +35,7 @@ public class Portrait : MonoBehaviour
     private Dictionary<State, Sprite> spriteMapping_;
 
     private Ritual currentRitual_;
+    private PortraitHealth portraitHealth_;
 
     public enum State
     {
@@ -64,6 +65,11 @@ public class Portrait : MonoBehaviour
         }
     }
 
+    void OnHit()
+    {
+        Show(State.Hit);
+    }
+
     void Show(State state)
     {
         state_ = state;
@@ -89,6 +95,9 @@ public class Portrait : MonoBehaviour
 
         currentRitual_.OnComplete += OnAcquire;
         currentRitual_.OnReset += OnMiss;
+
+        portraitHealth_ = GetComponent<PortraitHealth>();
+        portraitHealth_.OnPortraitHit += OnHit;
     }
 
     float UpdateAnimation(float currentY)
@@ -122,7 +131,6 @@ public class Portrait : MonoBehaviour
                 break;
 
             case State.Hit:
-                y = last_ + hitHeight;
                 break;
         }
 

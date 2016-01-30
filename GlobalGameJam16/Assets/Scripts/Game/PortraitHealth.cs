@@ -9,6 +9,9 @@ public class PortraitHealth : MonoBehaviour
     public delegate void OnPortraitDeathDelegate();
     public event OnPortraitDeathDelegate OnPortraitDeath;
 
+    public delegate void OnPortraitHitDelegate();
+    public event OnPortraitHitDelegate OnPortraitHit;
+
     public GameObject healthBarFill;
     public GameObject healthBarBackground;
 
@@ -25,6 +28,11 @@ public class PortraitHealth : MonoBehaviour
     public void Hit(float damage)
     {
         health -= damage;
+
+        if (OnPortraitHit != null)
+        {
+            OnPortraitHit();
+        }
 
         if (health <= 0)
         {

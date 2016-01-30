@@ -69,6 +69,12 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Backspace) == true)
+        {
+            Application.LoadLevel(Application.loadedLevel);
+            return;
+        }
+
         UpdateRumble();
 
         for (int i = 0; i < 2; i++)
