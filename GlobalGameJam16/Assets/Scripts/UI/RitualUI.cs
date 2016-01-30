@@ -65,6 +65,7 @@ public class RitualUI : MonoBehaviour
         currentRitual_ = gameController_.currentRitual;
 
         currentRitual_.Changed += CreateKeys;
+        currentRitual_.OnPress += OnPress;
     }
 
     void CreateKeys(int count)
@@ -87,6 +88,11 @@ public class RitualUI : MonoBehaviour
 
             keys_.Add(key);
         }
+    }
+
+    void OnPress(int index)
+    {
+        keys_[index].GetComponent<UIKey>().Press();
     }
 
     void Update()

@@ -22,6 +22,9 @@ public class Ritual
     public delegate void PlayerReset(int joystick, float time, float magnitude);
     public event PlayerReset OnReset;
 
+    public delegate void KeyPressed(int index);
+    public event KeyPressed OnPress;
+
     private const float rumbleStrength_ = 2.0f;
     private const float rumbleTime_ = 0.5f;
 
@@ -104,6 +107,11 @@ public class Ritual
         {
             lastKey = keyCode;
             ritual[ritualIndex].earnedByJoy[joystick] = true;
+
+            if (OnPress != null)
+            {
+                OnPress(ritualIndex);
+            }
         }
         else
         {
