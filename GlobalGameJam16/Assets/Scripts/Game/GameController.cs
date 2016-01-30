@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject ritualUIPrefab;
     public Ritual currentRitual;
 
     private bool[] joystickPressed;
@@ -15,7 +16,10 @@ public class GameController : MonoBehaviour
 
         KeyMapping.Initialise();
 
-        currentRitual = new Ritual(Random.Range(3, 4), Ritual.Difficulty.Easy);
+        currentRitual = new Ritual();
+        Instantiate(ritualUIPrefab);
+
+        currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Hard);
     }
 
     public void Update()

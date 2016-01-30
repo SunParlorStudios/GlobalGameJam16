@@ -16,6 +16,7 @@ public class RitualUI : MonoBehaviour
     public Sprite leftTriggerButtonSprite;
     public Sprite rightBumperButtonSprite;
     public Sprite leftBumperButtonSprite;
+    public Sprite lastButtonSprite;
 
     public GameObject keyPrefab;
 
@@ -42,7 +43,8 @@ public class RitualUI : MonoBehaviour
             { KeyCodes.RT, rightTriggerButtonSprite },
             { KeyCodes.LT, leftTriggerButtonSprite },
             { KeyCodes.RB, rightBumperButtonSprite },
-            { KeyCodes.LB, leftBumperButtonSprite }
+            { KeyCodes.LB, leftBumperButtonSprite },
+            { KeyCodes.Last, lastButtonSprite }
         };
     }
 
@@ -61,7 +63,9 @@ public class RitualUI : MonoBehaviour
 
         gameController_ = gameController.GetComponent<GameController>();
         currentRitual_ = gameController_.currentRitual;
-	}
+
+        currentRitual_.Changed += CreateKeys;
+    }
 
     void CreateKeys(int count)
     {
@@ -72,21 +76,19 @@ public class RitualUI : MonoBehaviour
             Destroy(keys_[i]);
         }
 
+        GameObject key;
         for (int i = 0; i < count; ++i)
         {
-            GameObject key = Instantiate(keyPrefab);
+            key = Instantiate(keyPrefab);
             key.transform.parent = transform;
-            key.GetComponent<UIKey>().Set(spriteMapping_[(KeyCodes)Random.Range(0, System.Enum.GetValues(typeof(KeyCodes)).Length - 2)], i, keySpacing);
+            key.GetComponent<UIKey>().Set(spriteMapping_[currentRitual_.ritual[i].keyCode], i, keySpacing);
 
             keys_.Add(key);
         }
     }
-	
-	void Update()
+
+    void Update()
     {
-        if (Input.GetKeyUp(KeyCode.R) == true)
-        {
-            CreateKeys(Random.Range(4, 9));
-        }
-	}
+        
+    }
 }

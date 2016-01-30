@@ -16,15 +16,13 @@ public class Ritual
         public bool[] earnedByJoy;
     }
 
+    public delegate void OnChange(int count);
+    public event OnChange Changed;
+
     public List<RitualKey> ritual;
     private Reward reward;
 
     private KeyCodes lastKey;
-
-    public Ritual(int length, Difficulty difficulty)
-    {
-        ConstructRitual(length, difficulty);
-    }
 
     public void ConstructRitual(int length, Difficulty difficulty)
     {
@@ -88,6 +86,8 @@ public class Ritual
         }
 
         Debug.Log(ritualKeys);
+
+        PostChangedEvent();
     }
 
     public void EnterInput(int joystick, KeyCodes keyCode)
@@ -162,6 +162,14 @@ public class Ritual
         }
     }
 
+    public void PostChangedEvent()
+    {
+        if (Changed != null)
+        {
+            Changed(ritual.Count);
+        }
+    }
+
     public void ExecuteReward()
     {
         if (IsComplete() == true)
@@ -170,8 +178,8 @@ public class Ritual
             {
                 if (ritual[ritual.Count - 1].earnedByJoy[i] == true)
                 {
-                    ConstructRitual(Random.Range(3, 4), Ritual.Difficulty.Easy);
                     reward.Execute(i, KeyCodeToLane(lastKey));
+                    ConstructRitual(Random.Range(4, 9), Difficulty.Hard);
                     break;
                 }
             }
