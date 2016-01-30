@@ -33,6 +33,9 @@ public class UIKey : MonoBehaviour
     private float toScale_;
     private float pressedTimer_;
 
+    public GameObject particlePrefabPlayer1;
+    public GameObject particlePrefabPlayer2;
+
     void Awake()
     {
         renderer_ = GetComponent<SpriteRenderer>();
@@ -52,11 +55,15 @@ public class UIKey : MonoBehaviour
         current.Set(value);
     }
 
-    public void Press()
+    public void Press(int player)
     {
         pressedTimer_ = 0.0f;
         fromScale_ = currentScale_;
         toScale_ = pressedScale;
+
+        GameObject prefab = player == 0 ? particlePrefabPlayer1 : particlePrefabPlayer2;
+        GameObject particle = Instantiate(prefab);
+        particle.transform.position = transform.position;
     }
 
     public void Set(Sprite sprite, int index, float spacing)
