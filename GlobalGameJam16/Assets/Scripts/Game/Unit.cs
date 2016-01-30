@@ -28,6 +28,7 @@ public class Unit : MonoBehaviour
     public Transform healthBarBackground;
     public Transform explosionPoint;
     private float attackCooldown;
+    private bool specialAttack;
 
     private float hobble;
 
@@ -81,11 +82,24 @@ public class Unit : MonoBehaviour
             RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, (facingRight ? Vector3.right : Vector3.left), collisionRange);
             foreach (RaycastHit2D hit in hits)
             {
+                
                 if (hit.collider.tag == "Unit" && hit.collider.gameObject != gameObject && hit.collider.GetComponent<Unit>().belongsToPlayer != belongsToPlayer)
                 {
                     state = State.Attacking;
                     animator.SetTrigger("attack");
                     otherUnit = hit.collider.gameObject;
+
+                    specialAttack = false;
+                    return;
+                }
+                
+                if ((hit.collider.tag == "GodPortrait" && belongsToPlayer == 1) || (hit.collider.tag == "DevilPortrait" && belongsToPlayer == 0))
+                {
+                    state = State.Attacking;
+                    animator.SetTrigger("attack");
+                    specialAttack = true;
+                    otherUnit = hit.collider.gameObject;
+
                     return;
                 }
             }
@@ -154,8 +168,15 @@ public class Unit : MonoBehaviour
     public void OnHit()
     {
         Instantiate(Resources.Load("Particles/Explosion"), explosionPoint.position, Quaternion.identity);
-        
-        otherUnit.GetComponent<Unit>().Hit(damage);
+
+        if (!specialAttack)
+        {
+            otherUnit.GetComponent<Unit>().Hit(damage);
+        }
+        else
+        {
+            otherUnit.GetComponent<PortraitHealth>().Hit(damage);
+        }
     }
 
     public void Hit(float damage)
