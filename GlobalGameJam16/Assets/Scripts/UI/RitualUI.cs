@@ -29,6 +29,6 @@ public class RitualUI : MonoBehaviour
 	
 	void Update()
     {
-        Debug.Log(Input.GetAxisRaw("Joystick1Trigger") + " | " + Input.GetAxisRaw("Joystick2Trigger"));
+        
 	}
 }
