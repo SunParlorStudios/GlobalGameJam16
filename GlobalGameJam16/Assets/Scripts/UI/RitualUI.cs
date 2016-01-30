@@ -12,6 +12,10 @@ public class RitualUI : MonoBehaviour
     public Sprite rightButtonSprite;
     public Sprite upButtonSprite;
     public Sprite downButtonSprite;
+    public Sprite rightTriggerButtonSprite;
+    public Sprite leftTriggerButtonSprite;
+    public Sprite rightBumperButtonSprite;
+    public Sprite leftBumperButtonSprite;
 
     public GameObject keyPrefab;
 
@@ -34,7 +38,11 @@ public class RitualUI : MonoBehaviour
             { KeyCodes.Left, leftButtonSprite },
             { KeyCodes.Right, rightButtonSprite },
             { KeyCodes.Up, upButtonSprite },
-            { KeyCodes.Down, downButtonSprite }
+            { KeyCodes.Down, downButtonSprite },
+            { KeyCodes.RT, rightTriggerButtonSprite },
+            { KeyCodes.LT, leftTriggerButtonSprite },
+            { KeyCodes.RB, rightBumperButtonSprite },
+            { KeyCodes.LB, leftBumperButtonSprite }
         };
     }
 
@@ -68,7 +76,7 @@ public class RitualUI : MonoBehaviour
         {
             GameObject key = Instantiate(keyPrefab);
             key.transform.parent = transform;
-            key.GetComponent<UIKey>().Set(spriteMapping_[(KeyCodes)Random.Range(0, 6)], i, keySpacing);
+            key.GetComponent<UIKey>().Set(spriteMapping_[(KeyCodes)Random.Range(0, System.Enum.GetValues(typeof(KeyCodes)).Length - 2)], i, keySpacing);
 
             keys_.Add(key);
         }
