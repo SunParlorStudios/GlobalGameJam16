@@ -16,6 +16,9 @@ public class Ritual
         public bool[] earnedByJoy;
     }
 
+    public delegate void Completed(int joystick);
+    public event Completed OnComplete;
+
     public delegate void OnChange(int count);
     public event OnChange Changed;
 
@@ -189,6 +192,11 @@ public class Ritual
                 {
                     reward.Execute(i, KeyCodeToLane(lastKey));
                     ConstructRitual(Random.Range(4, 9), Difficulty.Easy);
+
+                    if (OnComplete != null)
+                    {
+                        OnComplete(i);
+                    }
                     break;
                 }
             }
