@@ -19,6 +19,12 @@ public class Ritual
     public delegate void OnChange(int count);
     public event OnChange Changed;
 
+    public delegate void PlayerReset(int joystick, float time, float magnitude);
+    public event PlayerReset OnReset;
+
+    private const float rumbleStrength_ = 2.0f;
+    private const float rumbleTime_ = 0.5f;
+
     public List<RitualKey> ritual;
     private Reward reward;
 
@@ -111,6 +117,11 @@ public class Ritual
         for (int i = 0; i < ritual.Count; i++)
         {
             ritual[i].earnedByJoy[joystick] = false;
+        }
+
+        if (OnReset != null)
+        {
+            OnReset(joystick, rumbleTime_, rumbleStrength_);
         }
     }
 

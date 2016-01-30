@@ -76,6 +76,8 @@ public class RitualUI : MonoBehaviour
             Destroy(keys_[i]);
         }
 
+        keys_.Clear();
+
         GameObject key;
         for (int i = 0; i < count; ++i)
         {
@@ -89,6 +91,12 @@ public class RitualUI : MonoBehaviour
 
     void Update()
     {
-        
+        for (int i = 0; i < currentRitual_.ritual.Count; ++i)
+        {
+            for (int j = 0; j < 2; ++j)
+            {
+                keys_[i].GetComponent<UIKey>().SetCurrent(j, currentRitual_.ritual[i].earnedByJoy[j]);
+            }
+        }
     }
 }
