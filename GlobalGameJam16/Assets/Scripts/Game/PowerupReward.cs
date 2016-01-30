@@ -21,7 +21,21 @@ public class PowerupReward : Reward
 
     public override void Execute(int player, int lane)
     {
+        switch (type)
+        {
+            case PowerupType.ClearLane:
 
+                break;
+            case PowerupType.Shockwave:
+
+                break;
+            case PowerupType.Shield:
+
+                break;
+            case PowerupType.Inferno:
+
+                break;
+        }
     }
 
     public override bool IsLaneBound()

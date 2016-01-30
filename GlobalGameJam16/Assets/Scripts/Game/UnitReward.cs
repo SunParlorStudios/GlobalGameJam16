@@ -22,7 +22,6 @@ public class UnitReward : Reward
 
         GameObject unit = (GameObject)GameObject.Instantiate(Resources.Load("Units/Sheep"), laneManager.GetPlayerSpawn(player, lane).position, Quaternion.identity);
         unit.GetComponent<Sheep>().facingRight = (player == 0 ? true : false);
-        //unit.GetComponent<Sheep>().health = UnityEngine.Random.Range(8.0f, 15.0f);
     }
 
     public override bool IsLaneBound()

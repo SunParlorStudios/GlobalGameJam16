@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Sheep : MonoBehaviour
+public class Sheep : Unit
 {
     public enum State
     {
@@ -18,12 +18,9 @@ public class Sheep : MonoBehaviour
     public Transform healthBarFill;
     public Transform healthBarBackground;
     public Transform explosionPoint;
-    public float health;
-    private float maxHealth;
     private float attackCooldown;
 
-    public float speed;
-    public float damage;
+    private float hobble;
 
     private GameObject otherUnit;
 
@@ -70,7 +67,20 @@ public class Sheep : MonoBehaviour
                     Vector3 newPos = new Vector3(transform.position.x, baseY, transform.position.z);
                     newPos.y = baseY + Mathf.Sin((newPos.x + 4.0f) / 8.0f * 3.0f) * 0.3f;
 
+                    hobble = Mathf.Sin(Time.time * 12.0f) * 0.1f;
+
+                    newPos.y += hobble;
                     transform.position = newPos;
+                }
+                else
+                {
+                    Vector3 newPos2 = new Vector3(transform.position.x, transform.position.y - hobble, transform.position.z);
+
+                    hobble = Mathf.Sin(Time.time * 12.0f) * 0.1f;
+
+                    newPos2.y += hobble;
+
+                    transform.position = newPos2;
                 }
                 break;
             case State.Attacking:
