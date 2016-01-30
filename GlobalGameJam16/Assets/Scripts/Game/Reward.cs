@@ -7,6 +7,8 @@ public abstract class Reward
 
     public abstract bool IsLaneBound();
 
+    public static bool used = false;
+
     public static Reward GetReward(int length)
     {
         if (Random.Range(0, 1) == 0)
@@ -25,7 +27,7 @@ public abstract class Reward
             {
                 type = UnitReward.UnitType.Small;
             }
-
+            used = true;
             return new UnitReward(type);
         }
         else

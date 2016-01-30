@@ -21,6 +21,8 @@ public class PowerupReward : Reward
 
     public override void Execute(int player, int lane)
     {
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
+
         switch (type)
         {
             case PowerupType.ClearLane:
@@ -30,7 +32,15 @@ public class PowerupReward : Reward
 
                 break;
             case PowerupType.Shield:
-
+                Unit unit;
+                for (int i = 0; i < units.Length; i++)
+                {
+                    unit = units[i].GetComponent<Unit>();
+                    if (unit.belongsToPlayer == player)
+                    {
+                        unit.EnableShield(3.0f);
+                    }
+                }
                 break;
             case PowerupType.Inferno:
 
@@ -44,10 +54,8 @@ public class PowerupReward : Reward
         {
             case PowerupType.ClearLane:
                 return true;
-                break;
             default:
                 return false;
-                break;
         }
     }
 }
