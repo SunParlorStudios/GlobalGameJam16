@@ -12,12 +12,12 @@ public class UIKey : MonoBehaviour
     public GameObject currentPlayer1;
     public GameObject currentPlayer2;
 
-    public Sprite currentFullSprite;
-    public Sprite currentEmptySprite;
-
     private SpriteRenderer renderer_;
     private SpriteRenderer half1Renderer_;
     private SpriteRenderer half2Renderer_;
+
+    private UICurrent half1Current_;
+    private UICurrent half2Current_;
 
     void Awake()
     {
@@ -26,13 +26,18 @@ public class UIKey : MonoBehaviour
         half1Renderer_ = currentPlayer1.GetComponent<SpriteRenderer>();
         half2Renderer_ = currentPlayer2.GetComponent<SpriteRenderer>();
 
+        half1Current_ = currentPlayer1.GetComponentInChildren<UICurrent>();
+        half2Current_ = currentPlayer2.GetComponentInChildren<UICurrent>();
+
         Reset();
+
+        transform.localScale = Vector3.zero;
 	}
 
     public void SetCurrent(int joystick, bool value)
     {
-        SpriteRenderer toChange = joystick == 0 ? half1Renderer_ : half2Renderer_;
-        toChange.sprite = value == true ? currentFullSprite : currentEmptySprite;
+        UICurrent current = joystick == 0 ? half1Current_ : half2Current_;
+        current.Set(value);
     }
 
     public void Set(Sprite sprite, int index, float spacing)
