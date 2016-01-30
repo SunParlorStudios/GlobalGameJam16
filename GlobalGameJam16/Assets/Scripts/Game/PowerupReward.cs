@@ -26,7 +26,14 @@ public class PowerupReward : Reward
         switch (type)
         {
             case PowerupType.ClearLane:
-
+                if (player == 0)
+                {
+                    // spawn white cross
+                }
+                else
+                {
+                    // spawn red cross
+                }
                 break;
             case PowerupType.Shockwave:
 
