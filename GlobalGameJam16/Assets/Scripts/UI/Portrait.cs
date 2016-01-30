@@ -139,6 +139,11 @@ public class Portrait : MonoBehaviour
             Show(State.Neutral);
         }
 
+        if (y < -1.5f)
+        {
+            y = -1.5f;
+        }
+
         return y;
     }
 
@@ -147,6 +152,7 @@ public class Portrait : MonoBehaviour
         Vector3 p = transform.localPosition;
 
         p.y = UpdateAnimation(p.y);
+
 
         transform.localPosition = p;
 
