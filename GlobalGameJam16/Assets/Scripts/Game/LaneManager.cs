@@ -18,13 +18,13 @@ public class LaneManager : MonoBehaviour
         switch (keyCode)
         {
             case KeyCodes.A:
-                return LaneKeyCode.A;
-            case KeyCodes.B:
-                return LaneKeyCode.B;
-            case KeyCodes.X:
-                return LaneKeyCode.X;
-            case KeyCodes.Y:
                 return LaneKeyCode.Y;
+            case KeyCodes.B:
+                return LaneKeyCode.X;
+            case KeyCodes.X:
+                return LaneKeyCode.B;
+            case KeyCodes.Y:
+                return LaneKeyCode.A;
             default:
                 return LaneKeyCode.A;
         }
