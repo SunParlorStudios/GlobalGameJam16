@@ -23,6 +23,7 @@ public class Unit : MonoBehaviour
 
     public Animator animator;
 
+    public GameObject shield;
     public Transform healthBarFill;
     public Transform healthBarBackground;
     public Transform explosionPoint;
@@ -36,6 +37,11 @@ public class Unit : MonoBehaviour
 
     private State state;
 
+    private float shieldDuration;
+    private float shieldTimer;
+    private bool shieldDecaying;
+    private float shieldDecayTimer;
+
     public void Awake()
     {
         baseY = transform.position.y;
@@ -47,6 +53,26 @@ public class Unit : MonoBehaviour
     public void Update()
     {
         healthBarFill.localScale = new Vector3(health / maxHealth * 80.0f, 1.0f, 1.0f);
+
+        shieldTimer -= Time.deltaTime;
+
+        if (shieldTimer <= 0.0f && shield.activeInHierarchy == true && !shieldDecaying)
+        {
+            shieldDecaying = true;
+            shieldDecayTimer = 0.0f;
+        }
+
+        if (shieldDecaying)
+        {
+            shieldDecayTimer += Time.deltaTime * 3.0f;
+
+            shield.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, new Color(1.0f, 1.0f, 1.0f, 0.0f), shieldDecayTimer);
+
+            if (shieldDecayTimer >= 1.0f)
+            {
+                DisableShield();
+            }
+        }
 
         attackCooldown -= Time.deltaTime;
 
@@ -134,11 +160,14 @@ public class Unit : MonoBehaviour
 
     public void Hit(float damage)
     {
-        health -= damage;
-
-        if (health <= 0)
+        if (!shield.activeInHierarchy)
         {
-            Destroy(gameObject);
+            health -= damage;
+
+            if (health <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
@@ -146,5 +175,25 @@ public class Unit : MonoBehaviour
     {
         attackCooldown = 0.15f;
         state = State.Idle;
+    }
+
+    public void EnableShield(float duration)
+    {
+        if (shield.activeInHierarchy != true)
+        {
+            shield.SetActive(true);
+            shield.GetComponent<SpriteRenderer>().color = Color.white;
+            shieldTimer = duration;
+            shieldDecaying = false;
+            shieldDecayTimer = 0.0f;
+        }
+    }
+
+    public void DisableShield()
+    {
+        shield.SetActive(false);
+        shieldTimer = -0.1f;
+        shieldDecaying = false;
+        shieldDecayTimer = 0.0f;
     }
 }
