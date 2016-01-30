@@ -5,6 +5,9 @@ using XInputDotNetPure;
 public class GameController : MonoBehaviour
 {
     public GameObject ritualUIPrefab;
+    public GameObject player1PortraitPrefab;
+    public GameObject player2PortraitPrefab;
+
     public Ritual currentRitual;
 
     private bool[] joystickPressed;
@@ -32,7 +35,10 @@ public class GameController : MonoBehaviour
 
         currentRitual = new Ritual();
         currentRitual.OnReset += Rumble;
+
         Instantiate(ritualUIPrefab);
+        Instantiate(player1PortraitPrefab);
+        Instantiate(player2PortraitPrefab);
 
         currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Easy);
     }
