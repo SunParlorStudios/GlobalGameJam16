@@ -48,10 +48,10 @@ public class Ritual
 
         if (difficulty == Difficulty.Medium)
         {
-            keyCodesPool.Add(KeyCodes.RB);
-            keyCodesPool.Add(KeyCodes.LB);
-            keyCodesPool.Add(KeyCodes.RT);
-            keyCodesPool.Add(KeyCodes.LT);
+            keyCodesPool.Add(KeyCodes.Up);
+            keyCodesPool.Add(KeyCodes.Down);
+            keyCodesPool.Add(KeyCodes.Left);
+            keyCodesPool.Add(KeyCodes.Right);
         }
         else if (difficulty == Difficulty.Hard)
         {
@@ -87,15 +87,6 @@ public class Ritual
             ritual.Add(ritualKey);
         }
 
-        string ritualKeys = "";
-
-        for (int i = 0; i < ritual.Count; i++)
-        {
-            ritualKeys += ritual[i].keyCode.ToString() + " | ";
-        }
-
-        Debug.Log(ritualKeys);
-
         PostChangedEvent();
     }
 
@@ -115,7 +106,6 @@ public class Ritual
         }
         else
         {
-            Debug.Log("Penile dysfunction for player " + joystick);
             Reset(joystick);
         }
     }
@@ -198,7 +188,7 @@ public class Ritual
                 if (ritual[ritual.Count - 1].earnedByJoy[i] == true)
                 {
                     reward.Execute(i, KeyCodeToLane(lastKey));
-                    ConstructRitual(Random.Range(4, 9), Difficulty.Hard);
+                    ConstructRitual(Random.Range(4, 9), Difficulty.Easy);
                     break;
                 }
             }

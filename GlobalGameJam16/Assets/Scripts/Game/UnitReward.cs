@@ -11,17 +11,46 @@ public class UnitReward : Reward
         Big
     }
 
-    public UnitReward(UnitType type)
-    {
+    private UnitType type;
 
+    public UnitReward(UnitType type_)
+    {
+        type = type_;
+        Debug.Log("Reward: " + type);
     }
 
     public override void Execute(int player, int lane)
     {
         LaneManager laneManager = GameObject.FindGameObjectWithTag("LaneManager").GetComponent<LaneManager>();
 
-        GameObject unit = (GameObject)GameObject.Instantiate(Resources.Load("Units/Sheep"), laneManager.GetPlayerSpawn(player, lane).position, Quaternion.identity);
-        unit.GetComponent<Sheep>().facingRight = (player == 0 ? true : false);
+        string toLoad = "";
+
+        switch (type)
+        {
+            case UnitType.Small:
+                if (player == 0)
+                    toLoad = "Units/Sheep";
+                else
+                    toLoad = "Units/Chick";
+                break;
+            case UnitType.Medium:
+                if (player == 0)
+                    toLoad = "Units/BlackSheep";
+                else
+                    toLoad = "Units/Chicken";
+                break;
+            case UnitType.Big:
+                if (player == 0)
+                    toLoad = "Units/Ram";
+                else
+                    toLoad = "Units/Turkey";
+                break;
+        }
+
+        GameObject unit = (GameObject)GameObject.Instantiate(Resources.Load(toLoad), laneManager.GetPlayerSpawn(player, lane).position, Quaternion.identity);
+        unit.GetComponent<Unit>().SetFacing(player == 0 ? true : false);
+        unit.GetComponent<Unit>().belongsToPlayer = player;
+        unit.GetComponent<Unit>().lane = lane;
     }
 
     public override bool IsLaneBound()

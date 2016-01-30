@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
         currentRitual.OnReset += Rumble;
         Instantiate(ritualUIPrefab);
 
-        currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Hard);
+        currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Easy);
     }
 
     private void Rumble(int joystick, float time, float magnitude)

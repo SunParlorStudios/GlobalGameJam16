@@ -11,7 +11,22 @@ public abstract class Reward
     {
         if (Random.Range(0, 1) == 0)
         {
-            return new UnitReward((UnitReward.UnitType)Mathf.Floor(length / 3));
+            UnitReward.UnitType type;
+
+            if (length >= 8)
+            {
+                type = UnitReward.UnitType.Big;
+            }
+            else if (length >= 5)
+            {
+                type = UnitReward.UnitType.Medium;
+            }
+            else
+            {
+                type = UnitReward.UnitType.Small;
+            }
+
+            return new UnitReward(type);
         }
         else
         {
