@@ -1,25 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class GameController : MonoBehaviour
 {
+    public GameObject ritualUIPrefab;
     public Ritual currentRitual;
 
     private bool[] joystickPressed;
 
+    private struct RumbleValues
+    {
+        public float magnitude, time;
+    }
+
+    private RumbleValues[] rumble_;
+
     public void Awake()
     {
-        joystickPressed = new bool[2];
-        joystickPressed[0] = false;
-        joystickPressed[1] = false;
+        rumble_ = new RumbleValues[2];
+
+        rumble_[0].time = 0.0f;
+        rumble_[1].time = 0.0f;
+
+        joystickPressed = new bool[2]
+        {
+            false, false
+        };
 
         KeyMapping.Initialise();
 
-        currentRitual = new Ritual(Random.Range(3, 4), Ritual.Difficulty.Easy);
+        currentRitual = new Ritual();
+        currentRitual.OnReset += Rumble;
+        Instantiate(ritualUIPrefab);
+
+        currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Hard);
+    }
+
+    private void Rumble(int joystick, float time, float magnitude)
+    {
+        rumble_[joystick].magnitude = magnitude;
+        rumble_[joystick].time = time;
+    }
+
+    private void UpdateRumble()
+    {
+        for (int i = 0; i < 2; ++i)
+        {
+            rumble_[i].time = Mathf.Max(0.0f, rumble_[i].time);
+            if (rumble_[i].time > 0.0f)
+            {
+                rumble_[i].time -= Time.deltaTime;
+                float magnitude = rumble_[i].magnitude;
+                GamePad.SetVibration((PlayerIndex)i, magnitude, magnitude);
+            }
+            else
+            {
+                GamePad.SetVibration((PlayerIndex)i, 0.0f, 0.0f);
+            }
+        }
     }
 
     public void Update()
     {
+        UpdateRumble();
+
         for (int i = 0; i < 2; i++)
         {
             if (joystickPressed[i] == true)
