@@ -33,11 +33,14 @@ public class LaneManager : MonoBehaviour
     public Transform GetPlayerSpawn(int player, int laneNumber)
     {
         Lane lane = lanes[laneNumber];
-        
+
+        Debug.Log("Lane id: " + player + " with child count: " + lane.transform.childCount);
+
         for (int i = 0; i < lane.transform.childCount; i++)
         {
-            if (lane.transform.GetChild(i).tag.Contains(player.ToString()))
+            if (lane.transform.GetChild(i).tag.Contains((player + 1).ToString()))
             {
+                Debug.Log("yes");
                 return lane.transform.GetChild(i);
             }
         }
