@@ -10,13 +10,13 @@ public class Ritual
         Hard
     }
 
-    private struct RitualKey
+    public struct RitualKey
     {
         public KeyCodes keyCode;
         public bool[] earnedByJoy;
     }
 
-    private List<RitualKey> ritual;
+    public List<RitualKey> ritual;
     private Reward reward;
 
     private KeyCodes lastKey;
