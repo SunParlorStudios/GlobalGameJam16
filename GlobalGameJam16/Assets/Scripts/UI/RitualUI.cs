@@ -90,9 +90,9 @@ public class RitualUI : MonoBehaviour
         }
     }
 
-    void OnPress(int index)
+    void OnPress(int joystick, int index)
     {
-        keys_[index].GetComponent<UIKey>().Press();
+        keys_[index].GetComponent<UIKey>().Press(joystick);
     }
 
     void Update()

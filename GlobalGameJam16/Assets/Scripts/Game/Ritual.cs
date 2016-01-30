@@ -22,7 +22,7 @@ public class Ritual
     public delegate void PlayerReset(int joystick, float time, float magnitude);
     public event PlayerReset OnReset;
 
-    public delegate void KeyPressed(int index);
+    public delegate void KeyPressed(int joystick, int index);
     public event KeyPressed OnPress;
 
     private const float rumbleStrength_ = 2.0f;
@@ -110,7 +110,7 @@ public class Ritual
 
             if (OnPress != null)
             {
-                OnPress(ritualIndex);
+                OnPress(joystick, ritualIndex);
             }
         }
         else
