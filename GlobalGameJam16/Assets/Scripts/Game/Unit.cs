@@ -194,11 +194,13 @@ public class Unit : MonoBehaviour
 
             if (!specialAttack)
             {
-                otherUnit.GetComponent<Unit>().Hit(damage);
+                if (otherUnit != null && otherUnit.GetComponent<Unit>() != null)
+                    otherUnit.GetComponent<Unit>().Hit(damage);
             }
             else
             {
-                otherUnit.GetComponent<PortraitHealth>().Hit(damage);
+                if (otherUnit != null && otherUnit.GetComponent<PortraitHealth>() != null)
+                    otherUnit.GetComponent<PortraitHealth>().Hit(damage);
             }
         }
     }

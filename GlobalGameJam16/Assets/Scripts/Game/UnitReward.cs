@@ -16,7 +16,6 @@ public class UnitReward : Reward
     public UnitReward(UnitType type_)
     {
         type = type_;
-        Debug.Log("Reward: " + type);
     }
 
     public override void Execute(int player, int lane)

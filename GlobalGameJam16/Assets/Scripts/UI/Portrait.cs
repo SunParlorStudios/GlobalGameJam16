@@ -72,10 +72,13 @@ public class Portrait : MonoBehaviour
 
     void Show(State state)
     {
-        state_ = state;
-        animationTimer_ = 0.0f;
-        renderer_.sprite = spriteMapping_[state];
-        last_ = transform.localPosition.y;
+        if (renderer_ != null)
+        {
+            state_ = state;
+            animationTimer_ = 0.0f;
+            renderer_.sprite = spriteMapping_[state];
+            last_ = transform.localPosition.y;
+        }
     }
 
 	void Awake()
