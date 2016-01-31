@@ -156,7 +156,7 @@ public class Ritual
                     }
 
                     reward.Execute(i, lane);
-                    ConstructRitual(Random.Range(3, 9), Difficulty.Easy);
+                    ConstructRitual(Random.Range(3, 9), (Ritual.Difficulty)PlayerPrefs.GetInt("difficulty"));
 
                     if (OnComplete != null)
                     {
