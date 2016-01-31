@@ -107,15 +107,6 @@ public class RippleEffect : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Emit(new Vector2(0.0f, 0.5f));
-        }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Emit(new Vector2(1.0f, 0.5f));
-        }
-
         foreach (var d in droplets) d.Update();
 
         UpdateShaderParameters();
