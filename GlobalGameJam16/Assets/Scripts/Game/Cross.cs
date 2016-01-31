@@ -28,10 +28,13 @@ public class Cross : MonoBehaviour
     private State state;
 
     private ParticleSystem particles;
+    private Rigidbody2D rigidbody2d;
 
     public void Awake()
     {
         state = State.HackyDelay;
+
+        rigidbody2d = GetComponent<Rigidbody2D>();
     }
 
     public void Update()
@@ -71,7 +74,17 @@ public class Cross : MonoBehaviour
                 }
                 break;
             case State.Speeding:
-                transform.Translate((goingRight ? Vector3.right : Vector3.left) * speed * Time.deltaTime);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0.0f, 0.0f, goingRight ? 50.0f : -50.0f), Time.deltaTime * 10.0f);
+                break;
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        switch (state)
+        {
+            case State.Speeding:
+                rigidbody2d.AddForce((goingRight ? Vector3.right : Vector3.left) * speed);
 
                 if (Vector3.Distance(Vector3.zero, transform.position) > 30.0f)
                 {
@@ -81,13 +94,14 @@ public class Cross : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D collision)
+    public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Unit")
         {
             if (collision.gameObject.GetComponent<Unit>().lane == lane)
             {
-                collision.gameObject.GetComponent<Unit>().Hit(Mathf.Infinity); //ezpz kill
+                Instantiate(Resources.Load("Particles/Explosion"), collision.transform.position, Quaternion.identity);
+                collision.gameObject.GetComponent<Unit>().Hit(Mathf.Infinity);
             }
         }
     }

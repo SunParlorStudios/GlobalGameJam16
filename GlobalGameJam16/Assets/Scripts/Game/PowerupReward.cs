@@ -23,16 +23,26 @@ public class PowerupReward : Reward
     {
         GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
 
+        LaneManager laneManager = GameObject.FindGameObjectWithTag("LaneManager").GetComponent<LaneManager>();
+
         switch (type)
         {
             case PowerupType.ClearLane:
                 if (player == 0)
                 {
-                    // spawn white cross
+                    GameObject obj = (GameObject)GameObject.Instantiate(Resources.Load("Powerups/PowerupLight"));
+                    Cross cross = obj.GetComponent<Cross>();
+                    cross.lane = lane;
+                    cross.goingRight = true;
+                    cross.dropTo = laneManager.GetPlayerSpawn(0, lane).position + Vector3.up * 0.5f;
                 }
                 else
                 {
-                    // spawn red cross
+                    GameObject obj = (GameObject)GameObject.Instantiate(Resources.Load("Powerups/PowerupFire"));
+                    Cross cross = obj.GetComponent<Cross>();
+                    cross.lane = lane;
+                    cross.goingRight = false;
+                    cross.dropTo = laneManager.GetPlayerSpawn(1, lane).position + Vector3.up * 0.5f;
                 }
                 break;
             case PowerupType.Shockwave:
