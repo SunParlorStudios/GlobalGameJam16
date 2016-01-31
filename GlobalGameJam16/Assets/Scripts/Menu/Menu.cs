@@ -6,10 +6,14 @@ public class Menu : MonoBehaviour
     public GameObject selector;
     public GameObject keyArt;
     public GameObject logo;
+    public SpriteRenderer logoGlow;
 
     private float animationTime;
 
     private Ritual.Difficulty difficulty;
+
+    private bool lightingUp = false;
+    private float lightingTimer = 0.0f;
 
     private bool resetted;
 
@@ -20,8 +24,18 @@ public class Menu : MonoBehaviour
 
     public void Update()
     {
-        keyArt.transform.position = Vector3.Lerp(keyArt.transform.position, new Vector3(-3.47f, -0.15f, 1.0f), Time.deltaTime * 3.0f);
-        logo.transform.position = Vector3.Lerp(logo.transform.position, new Vector3(-2.25f, -3.24f, 1.0f), Time.deltaTime * 3.0f);
+        keyArt.transform.position = Vector3.Lerp(keyArt.transform.position, new Vector3(-3.47f, -0.15f, keyArt.transform.position.z), Time.deltaTime * 3.0f);
+        logo.transform.position = Vector3.Lerp(logo.transform.position, new Vector3(-2.25f, -3.24f, keyArt.transform.position.z), Time.deltaTime * 3.0f);
+
+        if (Vector3.Distance(logo.transform.position, new Vector3(-2.25f, -3.24f, keyArt.transform.position.z)) <= 0.01f)
+        {
+            lightingUp = true;
+        }
+
+        if (lightingUp || true)
+        {
+            logoGlow.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Abs(Mathf.Cos(Time.time * 2.0f)));
+        }
 
         if (Input.GetAxisRaw(KeyMapping.Get(0, KeyCodes.A)) >= 0.3f)
         {
