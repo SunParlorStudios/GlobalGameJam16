@@ -11,7 +11,7 @@ public abstract class Reward
 
     public static Reward GetReward(int length)
     {
-        if (Random.Range(0, 1) == 0)
+        if (Random.value > 0.2f)
         {
             UnitReward.UnitType type;
 

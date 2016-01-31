@@ -139,7 +139,7 @@ public class Ritual
         }
     }
 
-    public void ExecuteReward()
+    public void ExecuteReward(GameObject particle)
     {
         if (IsComplete() == true)
         {
@@ -152,6 +152,7 @@ public class Ritual
                     if (laneSelector != null)
                     {
                         lane = laneSelector.GetComponent<LaneSelector>().selected;
+                        GameObject.Instantiate(particle, laneSelector.transform.position, Quaternion.Euler(0.0f, 0.0f, 0.0f));
                     }
 
                     reward.Execute(i, lane);

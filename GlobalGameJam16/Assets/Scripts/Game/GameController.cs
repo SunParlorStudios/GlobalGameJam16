@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public GameObject player2PortraitPrefab;
 
     public Ritual currentRitual;
+    public GameObject lightningParticle;
 
     private bool[] joystickPressed;
 
@@ -109,7 +110,7 @@ public class GameController : MonoBehaviour
 
         if (currentRitual.IsComplete())
         {
-            currentRitual.ExecuteReward();
+            currentRitual.ExecuteReward(lightningParticle);
         }
     }
 }
