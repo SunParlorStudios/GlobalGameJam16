@@ -11,7 +11,7 @@ public abstract class Reward
 
     public static Reward GetReward(int length)
     {
-        if (Random.Range(0, 1) == 0)
+        if (Random.Range(0, 1) == 50)
         {
             UnitReward.UnitType type;
 
@@ -32,7 +32,8 @@ public abstract class Reward
         }
         else
         {
-            return new PowerupReward((PowerupReward.PowerupType)Random.Range(0, System.Enum.GetValues(typeof(PowerupReward.PowerupType)).Length - 1));
+            return new PowerupReward(PowerupReward.PowerupType.ClearLane);
+            //return new PowerupReward((PowerupReward.PowerupType)Random.Range(0, System.Enum.GetValues(typeof(PowerupReward.PowerupType)).Length - 1));
         }
     }
 }
