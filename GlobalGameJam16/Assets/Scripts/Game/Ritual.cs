@@ -10,8 +10,16 @@ public class Ritual
         Hard
     }
 
-    public struct RitualKey
+    public class RitualKey
     {
+        public RitualKey(KeyCodes code = KeyCodes.None)
+        {
+            keyCode = code;
+            earnedByJoy = new bool[2];
+            earnedByJoy[0] = false;
+            earnedByJoy[1] = false;
+        }
+
         public KeyCodes keyCode;
         public bool[] earnedByJoy;
     }
@@ -34,58 +42,30 @@ public class Ritual
     public List<RitualKey> ritual;
     private Reward reward;
 
-    private KeyCodes lastKey;
-
     public void ConstructRitual(int length, Difficulty difficulty)
     {
         reward = Reward.GetReward(length);
 
         ritual = new List<RitualKey>();
 
-        List<KeyCodes> keyCodesPool = new List<KeyCodes>();
-
-        keyCodesPool.Add(KeyCodes.A);
-        keyCodesPool.Add(KeyCodes.B);
-        keyCodesPool.Add(KeyCodes.X);
-        keyCodesPool.Add(KeyCodes.Y);
+        List<KeyCodes> keyCodesPool = new List<KeyCodes>()
+        {
+            KeyCodes.A, KeyCodes.B, KeyCodes.X, KeyCodes.Y
+        };
 
         if (difficulty == Difficulty.Medium)
         {
-            keyCodesPool.Add(KeyCodes.Up);
-            keyCodesPool.Add(KeyCodes.Down);
-            keyCodesPool.Add(KeyCodes.Left);
-            keyCodesPool.Add(KeyCodes.Right);
-        }
-        else if (difficulty == Difficulty.Hard)
-        {
-            keyCodesPool.Add(KeyCodes.RB);
-            keyCodesPool.Add(KeyCodes.LB);
-            keyCodesPool.Add(KeyCodes.RT);
-            keyCodesPool.Add(KeyCodes.LT);
-            keyCodesPool.Add(KeyCodes.Up);
-            keyCodesPool.Add(KeyCodes.Down);
-            keyCodesPool.Add(KeyCodes.Left);
-            keyCodesPool.Add(KeyCodes.Right);
+            keyCodesPool.AddRange(new KeyCodes[4]{ KeyCodes.Left, KeyCodes.Right, KeyCodes.Up, KeyCodes.Down });
         }
 
-        while (length >= 0)
+        if (difficulty == Difficulty.Hard)
         {
-            length--;
-            
-            RitualKey ritualKey = new RitualKey();
-            ritualKey.earnedByJoy = new bool[2];
-            ritualKey.earnedByJoy[0] = false;
-            ritualKey.earnedByJoy[1] = false;
+            keyCodesPool.AddRange(new KeyCodes[4] { KeyCodes.LT, KeyCodes.RT, KeyCodes.LB, KeyCodes.RB });
+        }
 
-            if (length == -1 && reward.IsLaneBound())
-            {
-                ritualKey.keyCode = KeyCodes.Last;
-            }
-            else
-            {
-                int idx = Random.Range(0, keyCodesPool.Count - 1);
-                ritualKey.keyCode = keyCodesPool[idx];
-            }
+        for (int i = 0; i < length; ++i)
+        {
+            RitualKey ritualKey = new RitualKey(keyCodesPool[Random.Range(0, keyCodesPool.Count)]);
 
             ritual.Add(ritualKey);
         }
@@ -97,9 +77,8 @@ public class Ritual
     {
         int ritualIndex = GetCurrentIndex(joystick) + 1;
 
-        if ((ritual[ritualIndex].keyCode == KeyCodes.Last && KeyMapping.IsLastKey(keyCode)) || ritual[ritualIndex].keyCode == keyCode)
+        if (ritual[ritualIndex].keyCode == keyCode)
         {
-            lastKey = keyCode;
             ritual[ritualIndex].earnedByJoy[joystick] = true;
 
             if (OnPress != null)
@@ -152,28 +131,6 @@ public class Ritual
         return false;
     }
 
-    private int KeyCodeToLane(KeyCodes keyCode)
-    {
-        switch (keyCode)
-        {
-            case KeyCodes.A:
-                return 0;
-
-            case KeyCodes.B:
-                return 1;
-
-            case KeyCodes.X:
-                return 2;
-
-            case KeyCodes.Y:
-                return 3;
-
-            default:
-                return -1;
-
-        }
-    }
-
     public void PostChangedEvent()
     {
         if (Changed != null)
@@ -182,7 +139,7 @@ public class Ritual
         }
     }
 
-    public void ExecuteReward()
+    public void ExecuteReward(GameObject particle)
     {
         if (IsComplete() == true)
         {
@@ -190,7 +147,15 @@ public class Ritual
             {
                 if (ritual[ritual.Count - 1].earnedByJoy[i] == true)
                 {
-                    reward.Execute(i, KeyCodeToLane(lastKey));
+                    int lane = 0;
+                    GameObject laneSelector = GameObject.FindGameObjectWithTag("Lane" + (i + 1));
+                    if (laneSelector != null)
+                    {
+                        lane = laneSelector.GetComponent<LaneSelector>().selected;
+                        GameObject.Instantiate(particle, laneSelector.transform.position, Quaternion.Euler(0.0f, 0.0f, 0.0f));
+                    }
+
+                    reward.Execute(i, lane);
                     ConstructRitual(Random.Range(3, 9), (Ritual.Difficulty)PlayerPrefs.GetInt("difficulty"));
 
                     if (OnComplete != null)

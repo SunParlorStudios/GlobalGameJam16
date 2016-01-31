@@ -12,9 +12,6 @@ public abstract class Reward
     public static Reward GetReward(int length)
     {
         int chance = Random.Range(0, 100);
-
-        Debug.Log(chance);
-
         if (chance <= 75)
         {
             UnitReward.UnitType type;
