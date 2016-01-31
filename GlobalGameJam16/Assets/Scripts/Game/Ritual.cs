@@ -191,7 +191,7 @@ public class Ritual
                 if (ritual[ritual.Count - 1].earnedByJoy[i] == true)
                 {
                     reward.Execute(i, KeyCodeToLane(lastKey));
-                    ConstructRitual(Random.Range(4, 9), Difficulty.Easy);
+                    ConstructRitual(Random.Range(3, 9), Difficulty.Easy);
 
                     if (OnComplete != null)
                     {

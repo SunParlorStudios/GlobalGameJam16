@@ -11,7 +11,11 @@ public abstract class Reward
 
     public static Reward GetReward(int length)
     {
-        if (Random.Range(0, 1) == 50)
+        int chance = Random.Range(0, 100);
+
+        Debug.Log(chance);
+
+        if (chance <= 75)
         {
             UnitReward.UnitType type;
 
@@ -19,7 +23,7 @@ public abstract class Reward
             {
                 type = UnitReward.UnitType.Big;
             }
-            else if (length >= 5)
+            else if (length >= 6)
             {
                 type = UnitReward.UnitType.Medium;
             }
@@ -32,8 +36,7 @@ public abstract class Reward
         }
         else
         {
-            return new PowerupReward(PowerupReward.PowerupType.Shockwave);
-            //return new PowerupReward((PowerupReward.PowerupType)Random.Range(0, System.Enum.GetValues(typeof(PowerupReward.PowerupType)).Length - 1));
+            return new PowerupReward((PowerupReward.PowerupType)Random.Range(0, System.Enum.GetValues(typeof(PowerupReward.PowerupType)).Length - 1));
         }
     }
 }
