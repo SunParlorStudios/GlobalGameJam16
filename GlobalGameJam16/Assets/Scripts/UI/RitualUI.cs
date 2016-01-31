@@ -43,8 +43,7 @@ public class RitualUI : MonoBehaviour
             { KeyCodes.RT, rightTriggerButtonSprite },
             { KeyCodes.LT, leftTriggerButtonSprite },
             { KeyCodes.RB, rightBumperButtonSprite },
-            { KeyCodes.LB, leftBumperButtonSprite },
-            { KeyCodes.Last, lastButtonSprite }
+            { KeyCodes.LB, leftBumperButtonSprite }
         };
     }
 

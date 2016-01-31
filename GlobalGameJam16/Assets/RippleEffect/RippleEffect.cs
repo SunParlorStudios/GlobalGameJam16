@@ -68,9 +68,7 @@ public class RippleEffect : MonoBehaviour
     int dropCount;
 
     void UpdateShaderParameters()
-    {
-        Camera cam = GetComponent<Camera>();
-        
+    {        
         material.SetVector("_Drop1", droplets[0].MakeShaderParameter(1.77777777777778f));
         material.SetVector("_Drop2", droplets[1].MakeShaderParameter(1.77777777777778f));
         material.SetVector("_Drop3", droplets[2].MakeShaderParameter(1.77777777777778f));

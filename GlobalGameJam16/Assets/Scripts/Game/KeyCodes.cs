@@ -15,7 +15,7 @@ public enum KeyCodes : int
     LB,
     RT,
     LT,
-    Last
+    None
 }
 
 public class KeyMapping
@@ -60,11 +60,6 @@ public class KeyMapping
         return map_joy[joystick][kc];
     }
 
-    public static bool IsLastKey(KeyCodes kc)
-    {
-        return kc == KeyCodes.A || kc == KeyCodes.B || kc == KeyCodes.X || kc == KeyCodes.Y;
-    }
-
     public static bool IsAxisPressed(KeyCodes keyCode, float value)
     {
         switch (keyCode)
@@ -79,7 +74,6 @@ public class KeyMapping
                 break;
             default:
                 return value >= 0.3f;
-                break;
         }
 
         return false;
@@ -87,11 +81,11 @@ public class KeyMapping
 
     public static bool NoKeysPressed(int joystick)
     {
-        System.Array array = System.Enum.GetValues(typeof(KeyCodes));
+        System.Array keycodes = System.Enum.GetValues(typeof(KeyCodes));
 
-        for (int j = 0; j < array.Length; j++)
+        for (int i = 0; i < keycodes.Length - 1; i++)
         {
-            if ((KeyCodes)j != KeyCodes.Last && IsAxisPressed((KeyCodes)j, Input.GetAxisRaw(KeyMapping.Get(joystick, (KeyCodes)j))))
+            if (IsAxisPressed((KeyCodes)i, Input.GetAxisRaw(Get(joystick, (KeyCodes)i))))
             {
                 return false;
             }

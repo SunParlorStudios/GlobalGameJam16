@@ -71,6 +71,8 @@ public class GameController : MonoBehaviour
 
     public void Update()
     {
+        System.Array keycodes = System.Enum.GetValues(typeof(KeyCodes));
+
         if (Input.GetKeyUp(KeyCode.Backspace) == true)
         {
             Application.LoadLevel(Application.loadedLevel);
@@ -93,11 +95,9 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            System.Array something = System.Enum.GetValues(typeof(KeyCodes));
-            
-            for (int j = 0; j < something.Length; j++)
+            for (int j = 0; j < keycodes.Length - 1; j++)
             {
-                if ((KeyCodes)j != KeyCodes.Last && KeyMapping.IsAxisPressed((KeyCodes)j, Input.GetAxisRaw(KeyMapping.Get(i, (KeyCodes)j))))
+                if (KeyMapping.IsAxisPressed((KeyCodes)j, Input.GetAxisRaw(KeyMapping.Get(i, (KeyCodes)j))))
                 {
                     joystickPressed[i] = true;
                     currentRitual.EnterInput(i, (KeyCodes)j);
