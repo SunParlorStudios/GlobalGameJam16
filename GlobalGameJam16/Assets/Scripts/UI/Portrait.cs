@@ -37,6 +37,11 @@ public class Portrait : MonoBehaviour
     private Ritual currentRitual_;
     private PortraitHealth portraitHealth_;
 
+    public AudioClip happySound;
+    public AudioClip angrySound;
+    public AudioClip sadSound;
+    public AudioSource audioSource;
+
     public enum State
     {
         Neutral,
@@ -74,6 +79,34 @@ public class Portrait : MonoBehaviour
     {
         if (renderer_ != null)
         {
+            Debug.Log(state);
+            audioSource.Stop();
+            audioSource.time = 0;
+
+            switch (state_)
+            {
+                case State.Angry:
+                    audioSource.clip = angrySound;
+                    break;
+
+                case State.Happy:
+                    audioSource.clip = happySound;
+                    break;
+
+                case State.Sad:
+                    audioSource.clip = sadSound;
+                    break;
+
+                default:
+                    audioSource.clip = null;
+                    break;
+            }
+
+            if (audioSource.clip != null)
+            {
+                audioSource.Play();
+            }
+
             state_ = state;
             animationTimer_ = 0.0f;
             renderer_.sprite = spriteMapping_[state];
