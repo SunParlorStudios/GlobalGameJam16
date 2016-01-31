@@ -41,6 +41,11 @@ public class PortraitHealth : MonoBehaviour
                 OnPortraitDeath();
             }
 
+            GameController gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+            gc.SetWinner(transform.position.x > 0 ? 0 : 1);
+
+            Instantiate(Resources.Load("UI/GameOverUI"));
+
             Destroy(gameObject);
         }
     }
