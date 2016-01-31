@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
         Instantiate(player2PortraitPrefab);
         Instantiate(comboUIPrefab);
 
-        currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Hard);
+        currentRitual.ConstructRitual(Random.Range(4, 9), Ritual.Difficulty.Easy);
     }
 
     private void Rumble(int joystick, float time, float magnitude)

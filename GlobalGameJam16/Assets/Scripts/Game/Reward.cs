@@ -32,7 +32,7 @@ public abstract class Reward
         }
         else
         {
-            return new PowerupReward(PowerupReward.PowerupType.ClearLane);
+            return new PowerupReward(PowerupReward.PowerupType.Shockwave);
             //return new PowerupReward((PowerupReward.PowerupType)Random.Range(0, System.Enum.GetValues(typeof(PowerupReward.PowerupType)).Length - 1));
         }
     }

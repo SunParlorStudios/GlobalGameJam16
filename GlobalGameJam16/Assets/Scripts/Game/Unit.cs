@@ -7,7 +7,8 @@ public class Unit : MonoBehaviour
     {
         Walking,
         Attacking,
-        Idle
+        Idle,
+        KnockedBack
     }
 
     public int belongsToPlayer;
@@ -43,6 +44,10 @@ public class Unit : MonoBehaviour
     private bool shieldDecaying;
     private float shieldDecayTimer;
 
+    private Vector3 knockBackStart;
+    private Vector3 knockBackEnd;
+    private float knockBackTimer;
+
     public void Awake()
     {
         baseY = transform.position.y;
@@ -56,6 +61,22 @@ public class Unit : MonoBehaviour
         healthBarFill.localScale = new Vector3(health / maxHealth * 80.0f, 1.0f, 1.0f);
 
         shieldTimer -= Time.deltaTime;
+
+        if (state == State.KnockedBack)
+        {
+            knockBackTimer += Time.deltaTime * 5.0f;
+
+            transform.position = Vector3.Lerp(knockBackStart, knockBackEnd, knockBackTimer);
+
+            if (knockBackTimer >= 1.0f)
+            {
+                state = State.Walking;
+            }
+            else
+            {
+                return;
+            }
+        }
 
         if (shieldTimer <= 0.0f && shield.activeInHierarchy == true && !shieldDecaying)
         {
@@ -167,15 +188,18 @@ public class Unit : MonoBehaviour
 
     public void OnHit()
     {
-        Instantiate(Resources.Load("Particles/Explosion"), explosionPoint.position, Quaternion.identity);
+        if (state == State.Attacking)
+        {
+            Instantiate(Resources.Load("Particles/Explosion"), explosionPoint.position, Quaternion.identity);
 
-        if (!specialAttack)
-        {
-            otherUnit.GetComponent<Unit>().Hit(damage);
-        }
-        else
-        {
-            otherUnit.GetComponent<PortraitHealth>().Hit(damage);
+            if (!specialAttack)
+            {
+                otherUnit.GetComponent<Unit>().Hit(damage);
+            }
+            else
+            {
+                otherUnit.GetComponent<PortraitHealth>().Hit(damage);
+            }
         }
     }
 
@@ -194,8 +218,11 @@ public class Unit : MonoBehaviour
 
     public void OnEndAttack()
     {
-        attackCooldown = 0.15f;
-        state = State.Idle;
+        if (state == State.Attacking)
+        {
+            attackCooldown = 0.15f;
+            state = State.Idle;
+        }
     }
 
     public void EnableShield(float duration)
@@ -216,5 +243,13 @@ public class Unit : MonoBehaviour
         shieldTimer = -0.1f;
         shieldDecaying = false;
         shieldDecayTimer = 0.0f;
+    }
+
+    public void Knockback(Vector3 to)
+    {
+        knockBackStart = transform.position;
+        knockBackEnd = to;
+        knockBackTimer = 0.0f;
+        state = State.KnockedBack;
     }
 }
