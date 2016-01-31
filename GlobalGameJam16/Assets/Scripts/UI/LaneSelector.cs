@@ -5,12 +5,14 @@ public class LaneSelector : MonoBehaviour
 {
     public int joystick;
     public int selected;
+    private Vector3 newPosition_;
     private bool pressed_;
 
 	void Start()
     {
         pressed_ = false;
         selected = 0;
+        newPosition_ = transform.position;
 	}
 
 	void Update()
@@ -29,7 +31,7 @@ public class LaneSelector : MonoBehaviour
 
             if (selected == old)
             {
-                transform.Translate(0.0f, direction * -1.2f, 0.0f);
+                newPosition_ += new Vector3(0.0f, direction * -1.2f, 0.0f);
             }
 
             pressed_ = true;
@@ -38,5 +40,7 @@ public class LaneSelector : MonoBehaviour
         {
             pressed_ = false;
         }
+
+        transform.position = Vector3.Lerp(transform.position, newPosition_, 1.0f - Mathf.Pow(0.5f, Time.deltaTime * 50.0f));
 	}
 }

@@ -13,7 +13,6 @@ public class ComboUI : MonoBehaviour
     private float animationTimer_;
     private float wobbleTimer_;
 
-    private Quaternion startRotation_;
     private Vector2 startAt_;
     private CanvasRenderer[] renderers_;
     private Text[] texts_;
@@ -24,7 +23,6 @@ public class ComboUI : MonoBehaviour
 
     void Start()
     {
-        startRotation_ = transform.rotation;
         startAt_ = GetComponent<RectTransform>().localPosition;
 
         renderers_ = GetComponentsInChildren<CanvasRenderer>();
