@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     public GameObject player1PortraitPrefab;
     public GameObject player2PortraitPrefab;
 
+    private int winner;
+
     public Ritual currentRitual;
     public GameObject lightningParticle;
 
@@ -112,5 +114,15 @@ public class GameController : MonoBehaviour
         {
             currentRitual.ExecuteReward(lightningParticle);
         }
+    }
+
+    public int WhoHasWon()
+    {
+        return winner;
+    }
+
+    public void SetWinner(int i)
+    {
+        winner = i;
     }
 }
