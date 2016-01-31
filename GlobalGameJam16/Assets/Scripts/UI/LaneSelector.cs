@@ -41,6 +41,6 @@ public class LaneSelector : MonoBehaviour
             pressed_ = false;
         }
 
-        transform.position = Vector3.Lerp(transform.position, newPosition_, 1.0f - Mathf.Pow(0.001f, Time.deltaTime));
+        transform.position = Vector3.Lerp(transform.position, newPosition_, 1.0f - Mathf.Pow(0.5f, Time.deltaTime * 50.0f));
 	}
 }
