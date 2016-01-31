@@ -22,6 +22,8 @@ public class RitualUI : MonoBehaviour
 
     public float keySpacing = 1.0f;
 
+    public AudioSource buttonSound;
+
     private GameController gameController_;
     private Ritual currentRitual_;
 
@@ -91,6 +93,7 @@ public class RitualUI : MonoBehaviour
 
     void OnPress(int joystick, int index)
     {
+        buttonSound.Play();
         keys_[index].GetComponent<UIKey>().Press(joystick);
     }
 

@@ -10,8 +10,11 @@ public class Shockwave : MonoBehaviour
     public float speed;
     public float knockbackForce;
 
+    public AudioSource shockwaveSound;
+
     public void Awake()
     {
+        shockwaveSound.Play();
         pushedObjects = new List<GameObject>();
 
         RippleEffect rip = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<RippleEffect>();
